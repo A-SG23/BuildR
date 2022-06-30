@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,7 +18,11 @@ public class Display extends Application {
 	private ArrayList<Text> experienceArray = new ArrayList<Text>();
 	private ArrayList<Text> awardsArray = new ArrayList<Text>();
 	private ArrayList<Text> volunteerArray = new ArrayList<Text>();
-
+	private int edY = 70;
+	private int exY = 70;
+	private int awY = 70;
+	private int volY = 70;
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -98,6 +104,128 @@ public class Display extends Application {
 		
 		stage.setScene(scene);
 		stage.show();
+		
+		education.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
+		    @Override 
+		    public void handle(ActionEvent e) {
+		    	mainPage.setVisible(false);
+		    	educationPage.setVisible(true);
+		    	backToMain.setVisible(true);
+			}
+		});
+		
+		addEducation.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
+		    @Override 
+		    public void handle(ActionEvent e) {
+		    	String item = addEducation.getText();
+		    	boolean has = false;
+		    	for (Text text: educationArray) if (text.getText().equals(item)) has = true;
+		    	
+		    	if (!has) {
+		    		addEducation.clear();
+		    		Text education1 = new Text(item);
+		    		educationArray.add(education1);
+			    	educationPage.getChildren().add(education1);
+			    	education1.setLayoutX(20);
+			    	education1.setLayoutY(edY);
+			    	edY += 20;
+		    	}
+			}
+		});
+		
+		addExperience.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
+		    @Override 
+		    public void handle(ActionEvent e) {
+		    	String item = addExperience.getText();
+		    	boolean has = false;
+		    	for (Text text: experienceArray) if (text.getText().equals(item)) has = true;
+		    	
+		    	if (!has) {
+		    		addExperience.clear();
+		    		Text exp1 = new Text(item);
+		    		experienceArray.add(exp1);
+			    	experiencePage.getChildren().add(exp1);
+			    	exp1.setLayoutX(20);
+			    	exp1.setLayoutY(exY);
+			    	exY += 20;
+		    	}
+			}
+		});
+		
+		addAward.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
+		    @Override 
+		    public void handle(ActionEvent e) {
+		    	String item = addAward.getText();
+		    	boolean has = false;
+		    	for (Text text: awardsArray) if (text.getText().equals(item)) has = true;
+		    	
+		    	if (!has) {
+		    		addAward.clear();
+		    		Text aw1 = new Text(item);
+		    		awardsArray.add(aw1);
+			    	awardsPage.getChildren().add(aw1);
+			    	aw1.setLayoutX(20);
+			    	aw1.setLayoutY(awY);
+			    	awY += 20;
+		    	}
+			}
+		});
+		
+		addVolunteer.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
+		    @Override 
+		    public void handle(ActionEvent e) {
+		    	String item = addVolunteer.getText();
+		    	boolean has = false;
+		    	for (Text text: volunteerArray) if (text.getText().equals(item)) has = true;
+		    	
+		    	if (!has) {
+		    		addVolunteer.clear();
+		    		Text vol1 = new Text(item);
+		    		volunteerArray.add(vol1);
+			    	volunteerPage.getChildren().add(vol1);
+			    	vol1.setLayoutX(20);
+			    	vol1.setLayoutY(volY);
+			    	volY += 20;
+		    	}
+			}
+		});
+		
+		experience.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
+		    @Override 
+		    public void handle(ActionEvent e) {
+		    	mainPage.setVisible(false);
+		    	experiencePage.setVisible(true);
+		    	backToMain.setVisible(true);
+			}
+		});
+		
+		awards.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
+		    @Override 
+		    public void handle(ActionEvent e) {
+		    	mainPage.setVisible(false);
+		    	awardsPage.setVisible(true);
+		    	backToMain.setVisible(true);
+			}
+		});
+		
+		volunteer.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
+		    @Override 
+		    public void handle(ActionEvent e) {
+		    	mainPage.setVisible(false);
+		    	volunteerPage.setVisible(true);
+		    	backToMain.setVisible(true);
+			}
+		});
+		
+		backToMain.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
+		    @Override 
+		    public void handle(ActionEvent e) {
+		    	for (Pane pane: paneArray) pane.setVisible(false);
+		    	mainPage.setVisible(true);
+		    	backToMain.setVisible(false);
+		    }
+		});
+		
 		
 	}
 	
