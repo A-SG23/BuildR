@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -60,7 +59,8 @@ public class Display extends Application {
 		
 		// ------- EDUCATION PANE ------ //
 		Pane educationPage = new Pane();
-		TextField addEducation = new TextField("Add education...");
+		TextField addEducation = new TextField();
+		addEducation.setPromptText("Add education...");
 		addEducation.setLayoutX(20);
 		addEducation.setLayoutY(20);
 		addEducation.setEditable(true);
@@ -73,7 +73,8 @@ public class Display extends Application {
 		paneArray.add(educationPage);
 		
 		Pane experiencePage = new Pane();
-		TextField addExperience = new TextField("Add experience...");
+		TextField addExperience = new TextField();
+		addExperience.setPromptText("Add experience...");
 		addExperience.setLayoutX(20);
 		addExperience.setLayoutY(20);
 		addExperience.setEditable(true);
@@ -83,7 +84,8 @@ public class Display extends Application {
 		paneArray.add(experiencePage);
 		
 		Pane awardsPage = new Pane();
-		TextField addAward = new TextField("Add award...");
+		TextField addAward = new TextField();
+		addAward.setPromptText("Add award...");
 		addAward.setLayoutX(20);
 		addAward.setLayoutY(20);
 		addAward.setEditable(true);
@@ -93,7 +95,8 @@ public class Display extends Application {
 		paneArray.add(awardsPage);
 		
 		Pane volunteerPage = new Pane();
-		TextField addVolunteer = new TextField("Add volunteer experience...");
+		TextField addVolunteer = new TextField();
+		addVolunteer.setPromptText("Add volunteer experience...");
 		addVolunteer.setLayoutX(20);
 		addVolunteer.setLayoutY(20);
 		addVolunteer.setEditable(true);
