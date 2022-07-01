@@ -5,8 +5,12 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -36,20 +40,25 @@ public class Display extends Application {
 		
 		Pane mainPage = new Pane();
 		Button education = new Button("Education");
-		education.setLayoutX(10);
-		education.setLayoutY(20);
+		education.setLayoutX(200);
+		education.setLayoutY(50);
+		
 		Button experience = new Button("Experience");
-		experience.setLayoutX(10);
-		experience.setLayoutY(50);
+		experience.setLayoutX(scene.getWidth()/2.5);
+		experience.setLayoutY(80);
+		
 		Button awards = new Button("Awards/Honors");
-		awards.setLayoutX(10);
-		awards.setLayoutY(80);
+		awards.setLayoutX(scene.getWidth()/2.5);
+		awards.setLayoutY(110);
+		
 		Button volunteer = new Button("Volunteer Service");
-		volunteer.setLayoutX(10);
-		volunteer.setLayoutY(110);
-		Text main = new Text("Main Page");
-		main.setX(10);
-		main.setY(15);
+		volunteer.setLayoutX(scene.getWidth()/2.5);
+		volunteer.setLayoutY(140);
+		
+		Text main = new Text("BuildR");
+		main.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 30));
+		main.setX(scene.getWidth()/2.5);
+		main.setY(40);
 		mainPage.getChildren().addAll(main, education, experience, awards, volunteer);
 		root.getChildren().add(mainPage);
 		
