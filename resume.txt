@@ -1,14 +1,20 @@
-RESUME
+RESUME FOR ADITI G
 
- EDUCATIONed
+EDUCATION
+-Cupertino High
+-UC Scout
+-De Anza Dual Enrollment
 
 EXPERIENCE
-hi
+-STEM Tutor
+-Math Instructor
 
 AWARDS/HONORS
-asdfasdf
+-PlatHacks First Place
+-NSHSS Recognition
+-Juni Learning 2nd Place
 
 VOLUNTEER EXPERIENCE
-hello
+-Youth Ambassador @ AINAK
 
-Made with BuildR
+Created with BuildR

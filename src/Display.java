@@ -9,8 +9,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -28,17 +30,40 @@ public class Display extends Application {
 	private ArrayList<Text> experienceArray = new ArrayList<Text>();
 	private ArrayList<Text> awardsArray = new ArrayList<Text>();
 	private ArrayList<Text> volunteerArray = new ArrayList<Text>();
+	private ArrayList<Button> buttonArray = new ArrayList<Button>();
+	
 	private String name;
 	private int edY = 70;
 	private int exY = 70;
 	private int awY = 70;
 	private int volY = 70;
+	private Button education;
+	private Button experience;
+	private Button awards;
+	private Button volunteer;
+	private Button buildResume;
+	private Timer timer;
 	
 	private class Timer extends AnimationTimer {
 
 		@Override
 		public void handle(long now) {
 			
+			for (Button button: buttonArray) {
+				
+				button.setOnMouseEntered((EventHandler<MouseEvent>) new EventHandler<MouseEvent>() {
+					public void handle(MouseEvent event) {
+						button.setStyle("-fx-background-color: #c9e7f2; -fx-text-fill: black; -fx-border-color: black");
+					}
+				});
+				
+				button.setOnMouseExited((EventHandler<MouseEvent>) new EventHandler<MouseEvent>() {
+					public void handle(MouseEvent event) {
+						button.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
+					}
+				});
+				
+			}
 		}
 	}
 	
@@ -53,30 +78,46 @@ public class Display extends Application {
 		Group root = new Group();
 		Scene scene = new Scene(root, 500, 500);
 		stage.setResizable(false);
+		scene.setFill(Paint.valueOf("#d8edea"));
 		
 		Pane mainPage = new Pane();
-		Button education = new Button("Education");
+		
+		
+		
+		//mainPage.setStyle("-fx-background-color: #d8edea");
+		 education = new Button("Education");
 		education.setLayoutX(15);
-		education.setLayoutY(50);
+		education.setLayoutY(85);
 		education.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
 		
-		Button experience = new Button("Experience");
+		TextField nameField = new TextField();
+		nameField.setText("What is your name?");
+		nameField.setLayoutX(15);
+		nameField.setLayoutY(50);
+		nameField.setEditable(true);
+		nameField.setStyle("-fx-border-color: black");
+		mainPage.getChildren().add(nameField);
+		
+		 experience = new Button("Experience");
 		experience.setLayoutX(15);
-		experience.setLayoutY(85);
+		experience.setLayoutY(120);
 		experience.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
 		
-		Button awards = new Button("Awards/Honors");
+		 awards = new Button("Awards/Honors");
 		awards.setLayoutX(15);
-		awards.setLayoutY(120);
+		awards.setLayoutY(155);
 		awards.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
 		
-		Button volunteer = new Button("Volunteer Service");
+		 volunteer = new Button("Volunteer Service");
 		volunteer.setLayoutX(15);
-		volunteer.setLayoutY(155);
+		volunteer.setLayoutY(190);
 		volunteer.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
+		
+		
 		
 		Text main = new Text("BuildR");
 		main.setFont(Font.font("calibri", FontWeight.BOLD, FontPosture.REGULAR, 35));
+		main.setStyle("-fx-background-color: #c9e7f2; -fx-text-fill: black; -fx-border-color: black");
 		main.setX(15);
 		main.setY(38);
 		mainPage.getChildren().addAll(main, education, experience, awards, volunteer);
@@ -87,19 +128,23 @@ public class Display extends Application {
 		backToMain.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
 		root.getChildren().add(backToMain);
 		
-		Button buildResume = new Button("Finish Resume!");
+		 buildResume = new Button("Finish Resume!");
 		buildResume.setLayoutX(15);
 		buildResume.setLayoutY(460);
 		buildResume.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
 		root.getChildren().add(buildResume);
 		
-		TextField nameField = new TextField();
-		nameField.setPromptText("What is your name?");
-		nameField.setLayoutX(15);
-		nameField.setLayoutY(190);
-		nameField.setEditable(true);
-		nameField.setStyle("-fx-border-color: black");
-		mainPage.getChildren().add(nameField);
+		/*
+		TextField addSection = new TextField();
+		addSection.setPromptText("Add section...");
+		addSection.setLayoutX(15);
+		addSection.setLayoutY(190);
+		addSection.setEditable(true);
+		addSection.setStyle("-fx-border-color: black");
+		mainPage.getChildren().add(addSection);
+		 */
+		
+		
 		
 		// ------- EDUCATION PANE ------- //
 		Pane educationPage = new Pane();
@@ -152,6 +197,16 @@ public class Display extends Application {
 		root.getChildren().add(volunteerPage);
 		paneArray.add(volunteerPage);
 		
+		buttonArray.add(education);
+		buttonArray.add(experience);
+		buttonArray.add(awards);
+		buttonArray.add(volunteer);
+		buttonArray.add(backToMain);
+		buttonArray.add(buildResume);
+		
+		timer = new Timer();
+		timer.start();
+		
 		stage.setScene(scene);
 		stage.show();
 		
@@ -159,9 +214,10 @@ public class Display extends Application {
 		    @Override 
 		    public void handle(ActionEvent e) {
 		    	name = nameField.getText();
-		    	Text text = new Text("Hello " + name + "!");
-		    	text.setX(nameField.getLayoutX());
-		    	text.setY(nameField.getLayoutY() + nameField.getHeight()/2);
+		    	Button text = new Button("Hello " + name + "!");
+		    	text.setLayoutX(nameField.getLayoutX());
+		    	text.setLayoutY(nameField.getLayoutY());
+		    	text.setStyle("-fx-background-color: #c9e7f2; -fx-text-fill: black; -fx-border-color: black");
 		    	mainPage.getChildren().add(text);
 		    	nameField.setVisible(false);
 			}
@@ -222,7 +278,7 @@ public class Display extends Application {
 		    public void handle(ActionEvent e) {
 		    	String item = addAward.getText();
 		    	boolean has = false;
-		    	for (Text text: awardsArray) if (text.getText().equals(item)) has = true;
+		    	for (Text text: awardsArray) if (text != null && text.getText().equals(item)) has = true;
 		    	
 		    	if (!has) {
 		    		addAward.clear();
@@ -296,22 +352,41 @@ public class Display extends Application {
 		    }
 		});
 		
+//		addSection.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
+//		    @Override 
+//		    public void handle(ActionEvent e) {
+//		    	if (addSection.getText() != null) {
+//		    		Button newButton = new Button(addSection.getText());
+//		    		newButton.setStyle("-fx-background-color: #c9e7f2; -fx-text-fill: black; -fx-border-color: black");
+//		    		newButton.setLayoutX(15);
+//		    		newButton.setLayoutY(addSection.getLayoutY());
+//		    		addSection.clear();
+//		    		addSection.setLayoutY(addSection.getLayoutY() + 35);
+//		    		buttonArray.add(newButton);
+//		    		mainPage.getChildren().add(newButton);
+//		    	}
+//		    }
+//		});
+//		
 		buildResume.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
 				System.out.println("build resume clicked");
 				try {
-					FileWriter fw = new FileWriter(new File("/Users/macbookpro/Desktop/BuildR/file.txt"));
-					fw.write("RESUME FOR " + name.toUpperCase() + "\n\nEDUCATION\n");
-					for (Text text: educationArray) fw.write("-" + text.getText() + "\n");
-					fw.write("\nEXPERIENCE\n");
-					for (Text text: experienceArray) fw.write("-" + text.getText() + "\n");
-					fw.write("\nAWARDS/HONORS\n");
-					for (Text text: awardsArray) fw.write("-" + text.getText() + "\n");
-					fw.write("\nVOLUNTEER EXPERIENCE\n");
-					for (Text text: volunteerArray) fw.write("-" + text.getText() + "\n");
-					fw.write("\nCreated with BuildR");
-					fw.close();
+					if (name != null) {
+						FileWriter fw = new FileWriter(new File("/Users/macbookpro/Desktop/BuildR/resume.txt"));
+						fw.write("RESUME FOR " + name.toUpperCase() + "\n\nEDUCATION\n");
+						for (Text text: educationArray) fw.write("-" + text.getText() + "\n");
+						fw.write("\nEXPERIENCE\n");
+						for (Text text: experienceArray) fw.write("-" + text.getText() + "\n");
+						fw.write("\nAWARDS/HONORS\n");
+						for (Text text: awardsArray) fw.write("-" + text.getText() + "\n");
+						fw.write("\nVOLUNTEER EXPERIENCE\n");
+						for (Text text: volunteerArray) fw.write("-" + text.getText() + "\n");
+						fw.write("\nCreated with BuildR");
+						fw.close();
+					}
+					
 				} catch (IOException i) {
 					System.out.println("Error writing to file!");
 				}
