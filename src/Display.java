@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -26,10 +28,19 @@ public class Display extends Application {
 	private ArrayList<Text> experienceArray = new ArrayList<Text>();
 	private ArrayList<Text> awardsArray = new ArrayList<Text>();
 	private ArrayList<Text> volunteerArray = new ArrayList<Text>();
+	private String name;
 	private int edY = 70;
 	private int exY = 70;
 	private int awY = 70;
 	private int volY = 70;
+	
+	private class Timer extends AnimationTimer {
+
+		@Override
+		public void handle(long now) {
+			
+		}
+	}
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -76,11 +87,19 @@ public class Display extends Application {
 		backToMain.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
 		root.getChildren().add(backToMain);
 		
-		Button buildResume = new Button("Build Resume!");
+		Button buildResume = new Button("Finish Resume!");
 		buildResume.setLayoutX(15);
 		buildResume.setLayoutY(460);
 		buildResume.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
 		root.getChildren().add(buildResume);
+		
+		TextField nameField = new TextField();
+		nameField.setPromptText("What is your name?");
+		nameField.setLayoutX(15);
+		nameField.setLayoutY(190);
+		nameField.setEditable(true);
+		nameField.setStyle("-fx-border-color: black");
+		mainPage.getChildren().add(nameField);
 		
 		// ------- EDUCATION PANE ------- //
 		Pane educationPage = new Pane();
@@ -91,7 +110,7 @@ public class Display extends Application {
 		addEducation.setEditable(true);
 		backToMain.setLayoutX(scene.getWidth()/2);
 		backToMain.setLayoutY(20);
-		
+		addEducation.setStyle("-fx-border-color: black");
 		educationPage.getChildren().addAll(addEducation);
 		educationPage.setVisible(false);
 		root.getChildren().add(educationPage);
@@ -103,6 +122,7 @@ public class Display extends Application {
 		addExperience.setLayoutX(20);
 		addExperience.setLayoutY(20);
 		addExperience.setEditable(true);
+		addExperience.setStyle("-fx-border-color: black");
 		experiencePage.getChildren().addAll(addExperience);
 		experiencePage.setVisible(false);
 		root.getChildren().add(experiencePage);
@@ -114,6 +134,7 @@ public class Display extends Application {
 		addAward.setLayoutX(20);
 		addAward.setLayoutY(20);
 		addAward.setEditable(true);
+		addAward.setStyle("-fx-border-color: black");
 		awardsPage.getChildren().addAll(addAward);
 		awardsPage.setVisible(false);
 		root.getChildren().add(awardsPage);
@@ -125,6 +146,7 @@ public class Display extends Application {
 		addVolunteer.setLayoutX(20);
 		addVolunteer.setLayoutY(20);
 		addVolunteer.setEditable(true);
+		addVolunteer.setStyle("-fx-border-color: black");
 		volunteerPage.getChildren().addAll(addVolunteer);
 		volunteerPage.setVisible(false);
 		root.getChildren().add(volunteerPage);
@@ -132,6 +154,18 @@ public class Display extends Application {
 		
 		stage.setScene(scene);
 		stage.show();
+		
+		nameField.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
+		    @Override 
+		    public void handle(ActionEvent e) {
+		    	name = nameField.getText();
+		    	Text text = new Text("Hello " + name + "!");
+		    	text.setX(nameField.getLayoutX());
+		    	text.setY(nameField.getLayoutY() + nameField.getHeight()/2);
+		    	mainPage.getChildren().add(text);
+		    	nameField.setVisible(false);
+			}
+		});
 		
 		education.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
 		    @Override 
@@ -268,25 +302,22 @@ public class Display extends Application {
 				System.out.println("build resume clicked");
 				try {
 					FileWriter fw = new FileWriter(new File("/Users/macbookpro/Desktop/BuildR/file.txt"));
-					fw.write("RESUME\n\nEDUCATION\n");
-					for (Text text: educationArray) fw.write(text.getText() + "\n");
+					fw.write("RESUME FOR " + name.toUpperCase() + "\n\nEDUCATION\n");
+					for (Text text: educationArray) fw.write("-" + text.getText() + "\n");
 					fw.write("\nEXPERIENCE\n");
-					for (Text text: experienceArray) fw.write(text.getText() + "\n");
+					for (Text text: experienceArray) fw.write("-" + text.getText() + "\n");
 					fw.write("\nAWARDS/HONORS\n");
-					for (Text text: awardsArray) fw.write(text.getText() + "\n");
+					for (Text text: awardsArray) fw.write("-" + text.getText() + "\n");
 					fw.write("\nVOLUNTEER EXPERIENCE\n");
-					for (Text text: volunteerArray) fw.write(text.getText() + "\n");
-					fw.write("\nMade with BuildR");
+					for (Text text: volunteerArray) fw.write("-" + text.getText() + "\n");
+					fw.write("\nCreated with BuildR");
 					fw.close();
 				} catch (IOException i) {
 					System.out.println("Error writing to file!");
 				}
-				
-				
 			}
 			
 		});
-		
 		
 	}
 	
