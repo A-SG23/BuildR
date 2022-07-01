@@ -8,11 +8,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Display extends Application {
 	
@@ -40,33 +45,44 @@ public class Display extends Application {
 		
 		Pane mainPage = new Pane();
 		Button education = new Button("Education");
-		education.setLayoutX(200);
+		education.setLayoutX(15);
 		education.setLayoutY(50);
+		education.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
 		
 		Button experience = new Button("Experience");
-		experience.setLayoutX(scene.getWidth()/2.5);
-		experience.setLayoutY(80);
+		experience.setLayoutX(15);
+		experience.setLayoutY(85);
+		experience.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
 		
 		Button awards = new Button("Awards/Honors");
-		awards.setLayoutX(scene.getWidth()/2.5);
-		awards.setLayoutY(110);
+		awards.setLayoutX(15);
+		awards.setLayoutY(120);
+		awards.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
 		
 		Button volunteer = new Button("Volunteer Service");
-		volunteer.setLayoutX(scene.getWidth()/2.5);
-		volunteer.setLayoutY(140);
+		volunteer.setLayoutX(15);
+		volunteer.setLayoutY(155);
+		volunteer.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
 		
 		Text main = new Text("BuildR");
-		main.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 30));
-		main.setX(scene.getWidth()/2.5);
-		main.setY(40);
+		main.setFont(Font.font("calibri", FontWeight.BOLD, FontPosture.REGULAR, 35));
+		main.setX(15);
+		main.setY(38);
 		mainPage.getChildren().addAll(main, education, experience, awards, volunteer);
 		root.getChildren().add(mainPage);
 		
 		Button backToMain = new Button("Back to main page");
 		backToMain.setVisible(false);
+		backToMain.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
 		root.getChildren().add(backToMain);
 		
-		// ------- EDUCATION PANE ------ //
+		Button buildResume = new Button("Build Resume!");
+		buildResume.setLayoutX(15);
+		buildResume.setLayoutY(460);
+		buildResume.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
+		root.getChildren().add(buildResume);
+		
+		// ------- EDUCATION PANE ------- //
 		Pane educationPage = new Pane();
 		TextField addEducation = new TextField();
 		addEducation.setPromptText("Add education...");
@@ -120,6 +136,7 @@ public class Display extends Application {
 		education.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
 		    @Override 
 		    public void handle(ActionEvent e) {
+		    	buildResume.setVisible(false);
 		    	mainPage.setVisible(false);
 		    	educationPage.setVisible(true);
 		    	backToMain.setVisible(true);
@@ -136,6 +153,7 @@ public class Display extends Application {
 		    	if (!has) {
 		    		addEducation.clear();
 		    		Text education1 = new Text(item);
+		    		education1.setStyle("-fx-background-color: #c9e7f2; -fx-text-fill: black; -fx-border-color: black");
 		    		educationArray.add(education1);
 			    	educationPage.getChildren().add(education1);
 			    	education1.setLayoutX(20);
@@ -155,6 +173,7 @@ public class Display extends Application {
 		    	if (!has) {
 		    		addExperience.clear();
 		    		Text exp1 = new Text(item);
+		    		exp1.setStyle("-fx-background-color: #c9e7f2; -fx-text-fill: black; -fx-border-color: black");
 		    		experienceArray.add(exp1);
 			    	experiencePage.getChildren().add(exp1);
 			    	exp1.setLayoutX(20);
@@ -193,6 +212,7 @@ public class Display extends Application {
 		    	if (!has) {
 		    		addVolunteer.clear();
 		    		Text vol1 = new Text(item);
+		    		vol1.setStyle("-fx-background-color: #c9e7f2; -fx-text-fill: black; -fx-border-color: black");
 		    		volunteerArray.add(vol1);
 			    	volunteerPage.getChildren().add(vol1);
 			    	vol1.setLayoutX(20);
@@ -205,6 +225,7 @@ public class Display extends Application {
 		experience.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
 		    @Override 
 		    public void handle(ActionEvent e) {
+		    	buildResume.setVisible(false);
 		    	mainPage.setVisible(false);
 		    	experiencePage.setVisible(true);
 		    	backToMain.setVisible(true);
@@ -214,6 +235,7 @@ public class Display extends Application {
 		awards.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
 		    @Override 
 		    public void handle(ActionEvent e) {
+		    	buildResume.setVisible(false);
 		    	mainPage.setVisible(false);
 		    	awardsPage.setVisible(true);
 		    	backToMain.setVisible(true);
@@ -223,6 +245,7 @@ public class Display extends Application {
 		volunteer.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
 		    @Override 
 		    public void handle(ActionEvent e) {
+		    	buildResume.setVisible(false);
 		    	mainPage.setVisible(false);
 		    	volunteerPage.setVisible(true);
 		    	backToMain.setVisible(true);
@@ -235,12 +258,41 @@ public class Display extends Application {
 		    	for (Pane pane: paneArray) pane.setVisible(false);
 		    	mainPage.setVisible(true);
 		    	backToMain.setVisible(false);
+		    	buildResume.setVisible(true);
 		    }
+		});
+		
+		buildResume.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				System.out.println("build resume clicked");
+				try {
+					FileWriter fw = new FileWriter(new File("/Users/macbookpro/Desktop/BuildR/file.txt"));
+					fw.write("RESUME\n\nEDUCATION\n");
+					for (Text text: educationArray) fw.write(text.getText() + "\n");
+					fw.write("\nEXPERIENCE\n");
+					for (Text text: experienceArray) fw.write(text.getText() + "\n");
+					fw.write("\nAWARDS/HONORS\n");
+					for (Text text: awardsArray) fw.write(text.getText() + "\n");
+					fw.write("\nVOLUNTEER EXPERIENCE\n");
+					for (Text text: volunteerArray) fw.write(text.getText() + "\n");
+					fw.write("\nMade with BuildR");
+					fw.close();
+				} catch (IOException i) {
+					System.out.println("Error writing to file!");
+				}
+				
+				
+			}
+			
 		});
 		
 		
 	}
 	
+	public void buildResume() {
+		
+	}
 	
 
 }
