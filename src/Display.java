@@ -82,14 +82,6 @@ public class Display extends Application {
 		
 		Pane mainPage = new Pane();
 		
-		
-		
-		//mainPage.setStyle("-fx-background-color: #d8edea");
-		 education = new Button("Education");
-		education.setLayoutX(15);
-		education.setLayoutY(85);
-		education.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
-		
 		TextField nameField = new TextField();
 		nameField.setText("What is your name?");
 		nameField.setLayoutX(15);
@@ -97,6 +89,12 @@ public class Display extends Application {
 		nameField.setEditable(true);
 		nameField.setStyle("-fx-border-color: black");
 		mainPage.getChildren().add(nameField);
+		
+		//mainPage.setStyle("-fx-background-color: #d8edea");
+		 education = new Button("Education");
+		education.setLayoutX(15);
+		education.setLayoutY(85);
+		education.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
 		
 		 experience = new Button("Experience");
 		experience.setLayoutX(15);
