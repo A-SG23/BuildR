@@ -34,6 +34,7 @@ public class Display extends Application {
 	private ArrayList<Text> awardsArray = new ArrayList<Text>();
 	private ArrayList<Text> volunteerArray = new ArrayList<Text>();
 	private ArrayList<Button> buttonArray = new ArrayList<Button>();
+	private ArrayList<TextField> textFieldArray = new ArrayList<TextField>();
 	private ArrayList<Pane> newPanes = new ArrayList<Pane>();
 	private ArrayList<Text> newItems = new ArrayList<Text>();
 	private ArrayList<Button> newButtons = new ArrayList<Button>();
@@ -74,20 +75,25 @@ public class Display extends Application {
 						button.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
 					}
 				});
+				
+				
 			}
 			
 			for (int i = 0; i < newButtons.size(); i++) {
-				int j = i;
-				newButtons.get(i).setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
+				Button button = newButtons.get(i);
+				Pane pane = newPanes.get(i);
+				button.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
 						buildResume.setVisible(false);
 						mainPage.setVisible(false);
-						newPanes.get(j).setVisible(true);
+						pane.setVisible(true);
 						backToMain.setVisible(true);
 					}
 				});
 			}
+			
+			
 		}
 	}
 
@@ -109,7 +115,6 @@ public class Display extends Application {
 		setUpMainPage();
 		mainPage.getChildren().addAll(main, nameField, classOf, education, experience, awards, volunteer, buildResume, addSection);
 		root.getChildren().addAll(mainPage, backToMain);
-
 
 
 		// ------- EDUCATION PANE ------- //
@@ -178,6 +183,8 @@ public class Display extends Application {
 		volunteerPage.setVisible(false);
 		root.getChildren().add(volunteerPage);
 		paneArray.add(volunteerPage);
+		
+	
 
 		buttonArray.add(education);
 		buttonArray.add(experience);
@@ -338,19 +345,32 @@ public class Display extends Application {
 			@Override 
 			public void handle(ActionEvent e) {
 				if (addSection.getText() != null) {
+					System.out.println("text not null");
 					Button newButton = new Button(addSection.getText());
 					newButton.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
 					newButton.setLayoutX(15);
 					newButton.setLayoutY(addSection.getLayoutY());
 					newButtons.add(newButton);
-					mainPage.getChildren().add(newButton);
+					mainPage.getChildren().add(newButton); 
 					
 					Pane newPane = new Pane();
+					Text t = new Text(newButton.getText());
+					t.setFont(Font.font("calibri", FontWeight.BOLD, FontPosture.REGULAR, 30));
+					t.setLayoutX(20);
+					t.setLayoutY(40);
+					TextField field = new TextField();
+					field.setLayoutX(20);
+					field.setLayoutY(60);
+					field.setPromptText("Add " + addSection.getText() + "...");
+					field.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
+					newPane.getChildren().addAll(t, field);
 					newPanes.add(newPane);
 					paneArray.add(newPane);
 					addSection.clear();
 					addSection.setLayoutY(addSection.getLayoutY() + 35);
 					buttonArray.add(newButton);
+					newPane.setVisible(false);
+					root.getChildren().addAll(newPane);
 				}
 			}
 		});
