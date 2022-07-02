@@ -34,6 +34,9 @@ public class Display extends Application {
 	private ArrayList<Text> awardsArray = new ArrayList<Text>();
 	private ArrayList<Text> volunteerArray = new ArrayList<Text>();
 	private ArrayList<Button> buttonArray = new ArrayList<Button>();
+	private ArrayList<Pane> newPanes = new ArrayList<Pane>();
+	private ArrayList<Text> newItems = new ArrayList<Text>();
+	private ArrayList<Button> newButtons = new ArrayList<Button>();
 
 	private String name;
 	private int edY = 110;
@@ -45,6 +48,12 @@ public class Display extends Application {
 	private Button awards;
 	private Button volunteer;
 	private Button buildResume;
+	private Button backToMain;
+	private Text main;
+	private Pane mainPage;
+	private TextField nameField = new TextField();
+	private TextField addSection = new TextField();
+
 	private Timer timer;
 	private ComboBox classOf;
 
@@ -54,7 +63,6 @@ public class Display extends Application {
 		public void handle(long now) {
 
 			for (Button button: buttonArray) {
-
 				button.setOnMouseEntered((EventHandler<MouseEvent>) new EventHandler<MouseEvent>() {
 					public void handle(MouseEvent event) {
 						button.setStyle("-fx-background-color: #c9e7f2; -fx-text-fill: black; -fx-border-color: black");
@@ -66,7 +74,19 @@ public class Display extends Application {
 						button.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
 					}
 				});
-
+			}
+			
+			for (int i = 0; i < newButtons.size(); i++) {
+				int j = i;
+				newButtons.get(i).setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						buildResume.setVisible(false);
+						mainPage.setVisible(false);
+						newPanes.get(j).setVisible(true);
+						backToMain.setVisible(true);
+					}
+				});
 			}
 		}
 	}
@@ -84,40 +104,13 @@ public class Display extends Application {
 		stage.setResizable(false);
 		scene.setFill(Paint.valueOf("#d8edea"));
 
-		Pane mainPage = new Pane();
-
-		TextField nameField = new TextField();
-		nameField.setText("What is your name?");
-		nameField.setLayoutX(15);
-		nameField.setLayoutY(50);
-		nameField.setEditable(true);
-		nameField.setStyle("-fx-border-color: black");
-		mainPage.getChildren().add(nameField);
-
+		// ---------- SETTING UP MAIN PAGE ---------- //
+		mainPage = new Pane();
 		setUpMainPage();
+		mainPage.getChildren().addAll(main, nameField, classOf, education, experience, awards, volunteer, buildResume, addSection);
+		root.getChildren().addAll(mainPage, backToMain);
 
-		Text main = new Text("BuildR");
-		main.setFont(Font.font("calibri", FontWeight.BOLD, FontPosture.REGULAR, 35));
-		main.setStyle("-fx-background-color: #c9e7f2; -fx-text-fill: black; -fx-border-color: black");
-		main.setX(15);
-		main.setY(38);
-		mainPage.getChildren().addAll(main, education, experience, awards, volunteer, classOf, buildResume);
-		root.getChildren().add(mainPage);
 
-		Button backToMain = new Button("Back to main page");
-		backToMain.setVisible(false);
-		backToMain.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
-		root.getChildren().add(backToMain);
-
-		/*
-		TextField addSection = new TextField();
-		addSection.setPromptText("Add section...");
-		addSection.setLayoutX(15);
-		addSection.setLayoutY(190);
-		addSection.setEditable(true);
-		addSection.setStyle("-fx-border-color: black");
-		mainPage.getChildren().add(addSection);
-		 */
 
 		// ------- EDUCATION PANE ------- //
 		Pane educationPage = new Pane();
@@ -171,7 +164,7 @@ public class Display extends Application {
 		paneArray.add(awardsPage);
 
 		Pane volunteerPage = new Pane();
-		Text volLabel = new Text("Volunteer Experience");
+		Text volLabel = new Text("Volunteer Service");
 		volLabel.setFont(Font.font("calibri", FontWeight.BOLD, FontPosture.REGULAR, 30));
 		volLabel.setLayoutX(20);
 		volLabel.setLayoutY(40);
@@ -341,22 +334,27 @@ public class Display extends Application {
 			}
 		});
 
-		//		addSection.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
-		//		    @Override 
-		//		    public void handle(ActionEvent e) {
-		//		    	if (addSection.getText() != null) {
-		//		    		Button newButton = new Button(addSection.getText());
-		//		    		newButton.setStyle("-fx-background-color: #c9e7f2; -fx-text-fill: black; -fx-border-color: black");
-		//		    		newButton.setLayoutX(15);
-		//		    		newButton.setLayoutY(addSection.getLayoutY());
-		//		    		addSection.clear();
-		//		    		addSection.setLayoutY(addSection.getLayoutY() + 35);
-		//		    		buttonArray.add(newButton);
-		//		    		mainPage.getChildren().add(newButton);
-		//		    	}
-		//		    }
-		//		});
-		//		
+		addSection.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
+			@Override 
+			public void handle(ActionEvent e) {
+				if (addSection.getText() != null) {
+					Button newButton = new Button(addSection.getText());
+					newButton.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
+					newButton.setLayoutX(15);
+					newButton.setLayoutY(addSection.getLayoutY());
+					newButtons.add(newButton);
+					mainPage.getChildren().add(newButton);
+					
+					Pane newPane = new Pane();
+					newPanes.add(newPane);
+					paneArray.add(newPane);
+					addSection.clear();
+					addSection.setLayoutY(addSection.getLayoutY() + 35);
+					buttonArray.add(newButton);
+				}
+			}
+		});
+
 		buildResume.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -387,32 +385,23 @@ public class Display extends Application {
 
 	}
 
+
+
 	public void setUpMainPage() {
-		education = new Button("Education");
-		education.setLayoutX(15);
-		education.setLayoutY(120);
-		education.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
 
-		experience = new Button("Experience");
-		experience.setLayoutX(15);
-		experience.setLayoutY(155);
-		experience.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
+		main = new Text("BuildR");
+		main.setFont(Font.font("calibri", FontWeight.BOLD, FontPosture.REGULAR, 35));
+		main.setStyle("-fx-background-color: #c9e7f2; -fx-text-fill: black; -fx-border-color: black");
+		main.setX(15);
+		main.setY(38);
 
-		awards = new Button("Awards/Honors");
-		awards.setLayoutX(15);
-		awards.setLayoutY(190);
-		awards.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
+		nameField = new TextField();
+		nameField.setText("What is your name?");
+		nameField.setLayoutX(15);
+		nameField.setLayoutY(50);
+		nameField.setEditable(true);
+		nameField.setStyle("-fx-border-color: black");
 
-		volunteer = new Button("Volunteer Service");
-		volunteer.setLayoutX(15);
-		volunteer.setLayoutY(225);
-		volunteer.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
-
-		buildResume = new Button("Finish Resume!");
-		buildResume.setLayoutX(15);
-		buildResume.setLayoutY(460);
-		buildResume.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
-		
 		ObservableList<String> options = 
 				FXCollections.observableArrayList(
 						"2022",
@@ -421,14 +410,51 @@ public class Display extends Application {
 						"2025", 
 						"2026"
 						);
-		
-		
-		 classOf = new ComboBox(options);
-			classOf.setPromptText("Class of...");
-			classOf.setLayoutX(15);
-			classOf.setLayoutY(85);
-			classOf.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
-		
+
+		classOf = new ComboBox(options);
+		classOf.setPromptText("Class of...");
+		classOf.setLayoutX(15);
+		classOf.setLayoutY(nameField.getLayoutY()+35);
+		classOf.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
+
+		education = new Button("Education");
+		education.setLayoutX(15);
+		education.setLayoutY(classOf.getLayoutY()+35);
+		education.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
+
+		experience = new Button("Experience");
+		experience.setLayoutX(15);
+		experience.setLayoutY(education.getLayoutY() + 35);
+		experience.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
+
+		awards = new Button("Awards/Honors");
+		awards.setLayoutX(15);
+		awards.setLayoutY(experience.getLayoutY()+35);
+		awards.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
+
+		volunteer = new Button("Volunteer Service");
+		volunteer.setLayoutX(15);
+		volunteer.setLayoutY(awards.getLayoutY()+35);
+		volunteer.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
+
+		addSection = new TextField();
+		addSection.setPromptText("Add section...");
+		addSection.setLayoutX(15);
+		addSection.setLayoutY(volunteer.getLayoutY()+35);
+		addSection.setEditable(true);
+		addSection.setStyle("-fx-border-color: black");
+
+		buildResume = new Button("Finish Resume!");
+		buildResume.setLayoutX(15);
+		buildResume.setLayoutY(460);
+		buildResume.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
+
+		backToMain = new Button("Back to main page");
+		backToMain.setVisible(false);
+		backToMain.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
+
+
+
 	}
 
 
