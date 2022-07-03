@@ -40,7 +40,7 @@ public class Display extends Application {
 	private ArrayList<Pane> newPanes = new ArrayList<Pane>();
 	private ArrayList<Text> newItems = new ArrayList<Text>();
 	private ArrayList<Button> newButtons = new ArrayList<Button>();
-	private ArrayList<Integer> textFieldYPos = new ArrayList<Integer>(Arrays.asList(110, 110, 110));
+	private ArrayList<Integer> textYPos = new ArrayList<Integer>(Arrays.asList(110, 110, 110));
 
 	private int newSectionCount = 0;
 	private TextField newField1 = new TextField();
@@ -99,11 +99,10 @@ public class Display extends Application {
 				});
 			}
 			
-			for (int i = 0; i < newTextFieldArray.size(); i++ ) {
+			for (int i = 0; i < newTextFieldArray.size(); i++) {
 				int j = i;
-				Pane pane = paneArray.get(i);
 				TextField textField = newTextFieldArray.get(i);
-				int thisY = textFieldYPos.get(i);
+				int thisY = textYPos.get(i);
 				
 				textField.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
 					@Override
@@ -112,36 +111,37 @@ public class Display extends Application {
 						boolean has = false;
 						for (Text text: newItems) if (text != null && text.getText().equals(item)) has = true;
 
-						if (!has) {
+						if (!has) {	
 							textField.clear();
 							Text item1 = new Text(item);
-							item1.setStyle("-fx-background-color: #c9e7f2; -fx-text-fill: black; -fx-border-color: black");
+							//item1.setStyle("-fx-background-color: #c9e7f2; -fx-text-fill: black; -fx-border-color: black");
 							newItems.add(item1);
-							pane.getChildren().addAll(item1);
+							System.out.println("pane name: " + String.valueOf(paneArray.get(j)));
+							newPanes.get(j).getChildren().addAll(item1);
 							item1.setLayoutX(20);
 							item1.setLayoutY(thisY);
-							textFieldYPos.set(j, thisY + 20);
+							textYPos.set(j, thisY + 20);
 						}
 					}
+					
+					
+					/*
+					String item = addAward.getText();
+					boolean has = false;
+					for (Text text: awardsArray) if (text != null && text.getText().equals(item)) has = true;
+				
+					if (!has) {
+						addAward.clear();
+						Text aw1 = new Text(item);
+						awardsArray.add(aw1);
+						awardsPage.getChildren().add(aw1);
+						aw1.setLayoutX(20);
+						aw1.setLayoutY(awY);
+						awY += 20;
+					}
+					 */
+					
 				});
-				
-				
-//				String item = addExperience.getText();
-//				boolean has = false;
-//				for (Text text: experienceArray) if (text.getText().equals(item)) has = true;
-//				
-//				if (!has) {
-//					addExperience.clear();
-//					Text exp1 = new Text(item);
-//					exp1.setStyle("-fx-background-color: #c9e7f2; -fx-text-fill: black; -fx-border-color: black");
-//					experienceArray.add(exp1);
-//					experiencePage.getChildren().add(exp1);
-//					exp1.setLayoutX(20);
-//					exp1.setLayoutY(exY);
-//					exY += 20;
-//				}
-				
-				
 			}
 		}
 	}
@@ -233,8 +233,6 @@ public class Display extends Application {
 		root.getChildren().add(volunteerPage);
 		paneArray.add(volunteerPage);
 		
-	
-
 		buttonArray.add(education);
 		buttonArray.add(experience);
 		buttonArray.add(awards);
@@ -317,7 +315,7 @@ public class Display extends Application {
 				String item = addAward.getText();
 				boolean has = false;
 				for (Text text: awardsArray) if (text != null && text.getText().equals(item)) has = true;
-
+				
 				if (!has) {
 					addAward.clear();
 					Text aw1 = new Text(item);
@@ -470,13 +468,15 @@ public class Display extends Application {
 						if (classOf.getAccessibleText() != null) classYear = ", CLASS OF " + classOf.getAccessibleText();
 						FileWriter fw = new FileWriter(new File("/Users/macbookpro/Desktop/BuildR/resume.txt"));
 						fw.write("RESUME FOR " + name.toUpperCase() + classYear + "\n\nEDUCATION\n");
-						for (Text text: educationArray) fw.write("-" + text.getText() + "\n");
+						for (Text text: educationArray) fw.write("- " + text.getText() + "\n");
 						fw.write("\nEXPERIENCE\n");
-						for (Text text: experienceArray) fw.write("-" + text.getText() + "\n");
+						for (Text text: experienceArray) fw.write("- " + text.getText() + "\n");
 						fw.write("\nAWARDS/HONORS\n");
-						for (Text text: awardsArray) fw.write("-" + text.getText() + "\n");
+						for (Text text: awardsArray) fw.write("- " + text.getText() + "\n");
 						fw.write("\nVOLUNTEER EXPERIENCE\n");
-						for (Text text: volunteerArray) fw.write("-" + text.getText() + "\n");
+						for (Text text: volunteerArray) fw.write("- " + text.getText() + "\n");
+						fw.write("\nADDITIONAL ACTIVITIES\n");
+						for (Text text: newItems) fw.write("- " + text.getText() + "\n");
 						fw.write("\nCreated with BuildR");
 						fw.close();
 					}
