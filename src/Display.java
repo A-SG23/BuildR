@@ -35,6 +35,11 @@ public class Display extends Application {
 	private ArrayList<Text> awardsArray = new ArrayList<Text>();
 	private ArrayList<Text> volunteerArray = new ArrayList<Text>();
 	
+	private TextField newField1 = new TextField();
+	private TextField newField2 = new TextField();
+	private TextField newField3 = new TextField();
+	private TextField newField4 = new TextField();
+	
 	private ArrayList<Button> buttonArray = new ArrayList<Button>();
 	private ArrayList<TextField> newTextFieldArray = new ArrayList<TextField>();
 	private ArrayList<Pane> newPanes = new ArrayList<Pane>();
@@ -43,10 +48,6 @@ public class Display extends Application {
 	private ArrayList<Integer> textYPos = new ArrayList<Integer>(Arrays.asList(110, 110, 110, 110));
 
 	private int newSectionCount = 0;
-	private TextField newField1 = new TextField();
-	private TextField newField2 = new TextField();
-	private TextField newField3 = new TextField();
-	private TextField newField4 = new TextField();
 	
 	private String name;
 	private int edY = 110;
@@ -469,6 +470,7 @@ public class Display extends Application {
 						root.getChildren().addAll(newPane);
 					}
 					
+				
 					
 				}
 			}
@@ -481,7 +483,6 @@ public class Display extends Application {
 				try {
 					if (name != null) {
 						String classYear = "";
-					//	if (classOf.getAccessibleText() == null) System.out.println("class of was null");
 						if (classOf.getValue() != null) classYear = ", CLASS OF " + classOf.getValue();
 						FileWriter fw = new FileWriter(new File("/Users/macbookpro/Desktop/BuildR/resume.txt"));
 						fw.write("RESUME FOR " + name.toUpperCase() + classYear + "\n\nEDUCATION\n");
