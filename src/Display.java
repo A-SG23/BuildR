@@ -40,12 +40,13 @@ public class Display extends Application {
 	private ArrayList<Pane> newPanes = new ArrayList<Pane>();
 	private ArrayList<Text> newItems = new ArrayList<Text>();
 	private ArrayList<Button> newButtons = new ArrayList<Button>();
-	private ArrayList<Integer> textYPos = new ArrayList<Integer>(Arrays.asList(110, 110, 110));
+	private ArrayList<Integer> textYPos = new ArrayList<Integer>(Arrays.asList(110, 110, 110, 110));
 
 	private int newSectionCount = 0;
 	private TextField newField1 = new TextField();
 	private TextField newField2 = new TextField();
 	private TextField newField3 = new TextField();
+	private TextField newField4 = new TextField();
 	
 	private String name;
 	private int edY = 110;
@@ -451,6 +452,21 @@ public class Display extends Application {
 						newPane.setVisible(false);
 						newTextFieldArray.add(newField3);
 						root.getChildren().addAll(newPane);
+					} else if (newSectionCount == 3) {
+						newField4 = new TextField();
+						newField4.setLayoutX(20);
+						newField4.setLayoutY(60);
+						newField4.setPromptText("Add " + addSection.getText() + "...");
+						newField4.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
+						newPane.getChildren().addAll(t, newField4);
+						newPanes.add(newPane);
+						paneArray.add(newPane);
+						addSection.clear();
+						addSection.setLayoutY(addSection.getLayoutY() + 35);
+						buttonArray.add(newButton);
+						newPane.setVisible(false);
+						newTextFieldArray.add(newField4);
+						root.getChildren().addAll(newPane);
 					}
 					
 					
@@ -465,7 +481,8 @@ public class Display extends Application {
 				try {
 					if (name != null) {
 						String classYear = "";
-						if (classOf.getAccessibleText() != null) classYear = ", CLASS OF " + classOf.getAccessibleText();
+					//	if (classOf.getAccessibleText() == null) System.out.println("class of was null");
+						if (classOf.getValue() != null) classYear = ", CLASS OF " + classOf.getValue();
 						FileWriter fw = new FileWriter(new File("/Users/macbookpro/Desktop/BuildR/resume.txt"));
 						fw.write("RESUME FOR " + name.toUpperCase() + classYear + "\n\nEDUCATION\n");
 						for (Text text: educationArray) fw.write("- " + text.getText() + "\n");
