@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -33,12 +34,19 @@ public class Display extends Application {
 	private ArrayList<Text> experienceArray = new ArrayList<Text>();
 	private ArrayList<Text> awardsArray = new ArrayList<Text>();
 	private ArrayList<Text> volunteerArray = new ArrayList<Text>();
+	
 	private ArrayList<Button> buttonArray = new ArrayList<Button>();
-	private ArrayList<TextField> textFieldArray = new ArrayList<TextField>();
+	private ArrayList<TextField> newTextFieldArray = new ArrayList<TextField>();
 	private ArrayList<Pane> newPanes = new ArrayList<Pane>();
 	private ArrayList<Text> newItems = new ArrayList<Text>();
 	private ArrayList<Button> newButtons = new ArrayList<Button>();
+	private ArrayList<Integer> textFieldYPos = new ArrayList<Integer>(Arrays.asList(110, 110, 110));
 
+	private int newSectionCount = 0;
+	private TextField newField1 = new TextField();
+	private TextField newField2 = new TextField();
+	private TextField newField3 = new TextField();
+	
 	private String name;
 	private int edY = 110;
 	private int exY = 110;
@@ -75,8 +83,6 @@ public class Display extends Application {
 						button.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
 					}
 				});
-				
-				
 			}
 			
 			for (int i = 0; i < newButtons.size(); i++) {
@@ -93,7 +99,50 @@ public class Display extends Application {
 				});
 			}
 			
-			
+			for (int i = 0; i < newTextFieldArray.size(); i++ ) {
+				int j = i;
+				Pane pane = paneArray.get(i);
+				TextField textField = newTextFieldArray.get(i);
+				int thisY = textFieldYPos.get(i);
+				
+				textField.setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						String item = textField.getText();
+						boolean has = false;
+						for (Text text: newItems) if (text != null && text.getText().equals(item)) has = true;
+
+						if (!has) {
+							textField.clear();
+							Text item1 = new Text(item);
+							item1.setStyle("-fx-background-color: #c9e7f2; -fx-text-fill: black; -fx-border-color: black");
+							newItems.add(item1);
+							pane.getChildren().addAll(item1);
+							item1.setLayoutX(20);
+							item1.setLayoutY(thisY);
+							textFieldYPos.set(j, thisY + 20);
+						}
+					}
+				});
+				
+				
+//				String item = addExperience.getText();
+//				boolean has = false;
+//				for (Text text: experienceArray) if (text.getText().equals(item)) has = true;
+//				
+//				if (!has) {
+//					addExperience.clear();
+//					Text exp1 = new Text(item);
+//					exp1.setStyle("-fx-background-color: #c9e7f2; -fx-text-fill: black; -fx-border-color: black");
+//					experienceArray.add(exp1);
+//					experiencePage.getChildren().add(exp1);
+//					exp1.setLayoutX(20);
+//					exp1.setLayoutY(exY);
+//					exY += 20;
+//				}
+				
+				
+			}
 		}
 	}
 
@@ -358,19 +407,55 @@ public class Display extends Application {
 					t.setFont(Font.font("calibri", FontWeight.BOLD, FontPosture.REGULAR, 30));
 					t.setLayoutX(20);
 					t.setLayoutY(40);
-					TextField field = new TextField();
-					field.setLayoutX(20);
-					field.setLayoutY(60);
-					field.setPromptText("Add " + addSection.getText() + "...");
-					field.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
-					newPane.getChildren().addAll(t, field);
-					newPanes.add(newPane);
-					paneArray.add(newPane);
-					addSection.clear();
-					addSection.setLayoutY(addSection.getLayoutY() + 35);
-					buttonArray.add(newButton);
-					newPane.setVisible(false);
-					root.getChildren().addAll(newPane);
+					
+					if (newSectionCount == 0) {
+						newField1 = new TextField();
+						newField1.setLayoutX(20);
+						newField1.setLayoutY(60);
+						newField1.setPromptText("Add " + addSection.getText() + "...");
+						newField1.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
+						newPane.getChildren().addAll(t, newField1);
+						newPanes.add(newPane);
+						paneArray.add(newPane);
+						addSection.clear();
+						addSection.setLayoutY(addSection.getLayoutY() + 35);
+						buttonArray.add(newButton);
+						newPane.setVisible(false);
+						newTextFieldArray.add(newField1);
+						root.getChildren().addAll(newPane);
+					} else if (newSectionCount == 1) {
+						newField2 = new TextField();
+						newField2.setLayoutX(20);
+						newField2.setLayoutY(60);
+						newField2.setPromptText("Add " + addSection.getText() + "...");
+						newField2.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
+						newPane.getChildren().addAll(t, newField2);
+						newPanes.add(newPane);
+						paneArray.add(newPane);
+						addSection.clear();
+						addSection.setLayoutY(addSection.getLayoutY() + 35);
+						buttonArray.add(newButton);
+						newPane.setVisible(false);
+						newTextFieldArray.add(newField2);
+						root.getChildren().addAll(newPane);
+					} else if (newSectionCount == 2) {
+						newField3 = new TextField();
+						newField3.setLayoutX(20);
+						newField3.setLayoutY(60);
+						newField3.setPromptText("Add " + addSection.getText() + "...");
+						newField3.setStyle("-fx-background-color: #ffffff; -fx-text-fill: black; -fx-border-color: black");
+						newPane.getChildren().addAll(t, newField3);
+						newPanes.add(newPane);
+						paneArray.add(newPane);
+						addSection.clear();
+						addSection.setLayoutY(addSection.getLayoutY() + 35);
+						buttonArray.add(newButton);
+						newPane.setVisible(false);
+						newTextFieldArray.add(newField3);
+						root.getChildren().addAll(newPane);
+					}
+					
+					
 				}
 			}
 		});
