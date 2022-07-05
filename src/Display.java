@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,6 +15,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -160,7 +162,8 @@ public class Display extends Application {
 		Scene scene = new Scene(root, 500, 500);
 		stage.setResizable(false);
 		scene.setFill(Paint.valueOf("#d8edea"));
-
+		
+		
 		// ---------- SETTING UP MAIN PAGE ---------- //
 		mainPage = new Pane();
 		setUpMainPage();
@@ -484,7 +487,7 @@ public class Display extends Application {
 					if (name != null) {
 						String classYear = "";
 						if (classOf.getValue() != null) classYear = ", CLASS OF " + classOf.getValue();
-						FileWriter fw = new FileWriter(new File("/Users/macbookpro/Desktop/BuildR/resume.txt"));
+						FileWriter fw = new FileWriter(new File("/Users/macbookpro/Desktop/resume.txt"));
 						fw.write("RESUME FOR " + name.toUpperCase() + classYear + "\n\nEDUCATION\n");
 						for (Text text: educationArray) fw.write("- " + text.getText() + "\n");
 						fw.write("\nEXPERIENCE\n");
@@ -502,6 +505,105 @@ public class Display extends Application {
 				} catch (IOException i) {
 					System.out.println("Error writing to file!");
 				}
+				
+				Stage stage2 = new Stage();
+				Group root2 = new Group();
+				Scene scene2 = new Scene(root2, 550, 800);
+				//scene2.setFill(null);
+				
+				Label title = new Label(name + ", Class of " + classOf.getValue());
+				title.setStyle("-fx-text-fill: #eb8b63");
+				title.setLayoutX(15);
+				title.setLayoutY(15);
+				title.setFont(Font.font("calibri", FontWeight.BOLD, FontPosture.REGULAR, 25));
+				
+				Label education = new Label("Education");
+				education.setStyle("-fx-text-fill: #eb8b63");
+				education.setLayoutX(15);
+				education.setLayoutY(title.getLayoutY() + 40);
+				education.setFont(Font.font("calibri", FontWeight.BOLD, FontPosture.REGULAR, 20));
+				
+				double y = education.getLayoutY()+40;
+				for (Text text: educationArray) {
+					Text ed = new Text(text.getText());
+					ed.setLayoutX(15);
+					ed.setLayoutY(y);
+					root2.getChildren().add(ed);
+					y += 15;
+				}
+				
+				Label experience = new Label("Experience");
+				experience.setStyle("-fx-text-fill: #eb8b63");
+				experience.setLayoutX(15);
+				experience.setLayoutY(y);
+				experience.setFont(Font.font("calibri", FontWeight.BOLD, FontPosture.REGULAR, 20));
+				
+				y = experience.getLayoutY()+40;
+				for (Text text: experienceArray) {
+					Text ex = new Text(text.getText());
+					ex.setLayoutX(15);
+					ex.setLayoutY(y);
+					root2.getChildren().add(ex);
+					y += 15;
+				}
+				
+				Label awards = new Label("Awards & Honors");
+				awards.setStyle("-fx-text-fill: #eb8b63");
+				awards.setLayoutX(15);
+				awards.setLayoutY(y);
+				awards.setFont(Font.font("calibri", FontWeight.BOLD, FontPosture.REGULAR, 20));
+				
+				y = awards.getLayoutY()+40;
+				for (Text text: awardsArray) {
+					Text aw = new Text(text.getText());
+					aw.setLayoutX(15);
+					aw.setLayoutY(y);
+					root2.getChildren().add(aw);
+					y += 15;
+				}
+				
+				Label volunteer = new Label("Volunteer Service");
+				volunteer.setStyle("-fx-text-fill: #eb8b63");
+				volunteer.setLayoutX(15);
+				volunteer.setLayoutY(y);
+				volunteer.setFont(Font.font("calibri", FontWeight.BOLD, FontPosture.REGULAR, 20));
+				
+				y = volunteer.getLayoutY()+40;
+				for (Text text: volunteerArray) {
+					Text vol = new Text(text.getText());
+					vol.setLayoutX(15);
+					vol.setLayoutY(y);
+					root2.getChildren().add(vol);
+					y += 15;
+				}
+				
+				Label extra = new Label("Additional Activities");
+				extra.setStyle("-fx-text-fill: #eb8b63");
+				extra.setLayoutX(15);
+				extra.setLayoutY(y);
+				extra.setFont(Font.font("calibri", FontWeight.BOLD, FontPosture.REGULAR, 20));
+				
+				y = extra.getLayoutY()+40;
+				for (Text text: newItems) {
+					Text add = new Text(text.getText());
+					add.setLayoutX(15);
+					add.setLayoutY(y);
+					root2.getChildren().add(add);
+					y += 15;
+				}
+				
+				y += 5;
+				Label credits = new Label("Created with BuildR");
+				credits.setLayoutY(y);
+				credits.setLayoutX(15);
+				credits.setFont(Font.font("calibri", FontWeight.BOLD, FontPosture.REGULAR, 15));
+				credits.setStyle("-fx-text-fill: #eb8b63");
+				root2.getChildren().add(credits);
+				
+				root2.getChildren().addAll(title, education, extra, volunteer, experience, awards);
+				stage2.setScene(scene2);
+				stage2.show();
+				
 			}
 
 		});
